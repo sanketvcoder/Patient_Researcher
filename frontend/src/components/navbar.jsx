@@ -2,10 +2,8 @@ import { useState } from "react";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-
-    // Simulating whether profile is created
     const [profileCreated, setProfileCreated] = useState(false);
-    const userName = "Sanket"; // You can replace this dynamically later
+    const userName = "Sanket";
 
     const linksBefore = ["Home", "Publications", "Read More", "Create Profile"];
     const linksAfter = [
@@ -20,32 +18,52 @@ const Navbar = () => {
 
     const displayedLinks = profileCreated ? linksAfter : linksBefore;
 
+    const handleScroll = (e, link) => {
+        e.preventDefault();
+        if (link === "Create Profile") {
+        const section = document.getElementById("cardSection");
+        if (section) {
+            section.scrollIntoView({ behavior: "smooth" });
+
+            // Trigger temporary glowing border animation
+            section.classList.add("section-glow");
+            setTimeout(() => section.classList.remove("section-glow"), 3000);
+        }
+        }
+    };
+
     return (
         <>
         <nav className="navbar">
             <div className="nav-container">
             {/* Logo */}
-            <div className="nav-logo" onClick={() => setProfileCreated(!profileCreated)}>
-                col<span>LAB</span>iora
+            <div
+                className="nav-logo"
+                onClick={() => setProfileCreated(!profileCreated)}
+            >
+                Cura<span>Link</span>
             </div>
 
             {/* Navigation Links */}
             <ul className={`nav-links ${isOpen ? "open" : ""}`}>
                 {displayedLinks.map((link) => (
                 <li key={link}>
-                    <a href={`#${link.toLowerCase().replace(/\s+/g, "-")}`}>{link}</a>
+                    <a
+                    href={`#${link.toLowerCase().replace(/\s+/g, "-")}`}
+                    onClick={(e) => handleScroll(e, link)}
+                    >
+                    {link}
+                    </a>
                 </li>
                 ))}
             </ul>
 
-            {/* Profile Logo (Only if profile created) */}
+            {/* Profile Icon */}
             {profileCreated && (
-                <div className="profile-logo">
-                {userName.charAt(0).toUpperCase()}
-                </div>
+                <div className="profile-logo">{userName.charAt(0)}</div>
             )}
 
-            {/* Hamburger Icon */}
+            {/* Hamburger */}
             <div
                 className={`hamburger ${isOpen ? "open" : ""}`}
                 onClick={() => setIsOpen(!isOpen)}
@@ -57,9 +75,10 @@ const Navbar = () => {
             </div>
         </nav>
 
-        {/* ✅ Inline Styles */}
+        {/* ✅ Styles */}
         <style>{`
             @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+            * { scroll-behavior: smooth; }
 
             .navbar {
             position: fixed;
@@ -67,8 +86,7 @@ const Navbar = () => {
             left: 0;
             width: 100%;
             background: linear-gradient(90deg, #0f0c29, #302b63, #24243e);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
             z-index: 1000;
             font-family: 'Poppins', sans-serif;
             }
@@ -78,40 +96,30 @@ const Navbar = () => {
             justify-content: space-between;
             align-items: center;
             padding: 15px 60px;
-            max-width: 1300px;
-            margin: auto;
             }
 
             .nav-logo {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: #00ffff;
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #8a2be2;
+            text-shadow: 0 0 15px #00ffff, 0 0 25px #8a2be2;
             cursor: pointer;
-            transition: transform 0.3s ease, color 0.3s;
-            letter-spacing: 1px;
             }
 
             .nav-logo span {
-            color: #ffffff;
-            }
-
-            .nav-logo:hover {
-            transform: scale(1.05);
-            color: #b19cd9;
+            color: #fff;
             }
 
             .nav-links {
             display: flex;
             list-style: none;
-            gap: 40px;
+            gap: 35px;
             }
 
             .nav-links li a {
-            color: white;
-            font-size: 1.05rem;
-            font-weight: 500;
+            color: #fff;
             text-decoration: none;
+            font-weight: 500;
             position: relative;
             transition: color 0.3s ease;
             }
@@ -129,36 +137,26 @@ const Navbar = () => {
 
             .nav-links li a:hover {
             color: #00ffff;
-            text-shadow: 0 0 5px #00ffff;
+            text-shadow: 0 0 8px #00ffff;
             }
 
             .nav-links li a:hover::after {
             width: 100%;
             }
 
-            /* Profile logo (user initial) */
             .profile-logo {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             background: linear-gradient(135deg, #00ffff, #8a2be2);
-            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
             font-weight: 700;
-            font-size: 1.1rem;
-            box-shadow: 0 0 15px rgba(0,255,255,0.6);
-            cursor: pointer;
-            transition: transform 0.3s ease;
+            box-shadow: 0 0 20px rgba(0,255,255,0.6);
             }
 
-            .profile-logo:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(138,43,226,0.8);
-            }
-
-            /* Hamburger */
             .hamburger {
             display: none;
             flex-direction: column;
@@ -176,18 +174,6 @@ const Navbar = () => {
             transition: all 0.3s ease;
             }
 
-            .hamburger.open span:nth-child(1) {
-            transform: rotate(45deg) translateY(8px);
-            }
-
-            .hamburger.open span:nth-child(2) {
-            opacity: 0;
-            }
-
-            .hamburger.open span:nth-child(3) {
-            transform: rotate(-45deg) translateY(-8px);
-            }
-
             @media (max-width: 900px) {
             .nav-links {
                 position: absolute;
@@ -197,31 +183,17 @@ const Navbar = () => {
                 width: 100%;
                 flex-direction: column;
                 align-items: center;
-                gap: 25px;
+                gap: 20px;
                 padding: 25px 0;
                 transform: translateY(-200%);
                 transition: transform 0.4s ease;
             }
-
             .nav-links.open {
                 transform: translateY(0%);
             }
-
             .hamburger {
                 display: flex;
             }
-            }
-
-            .navbar::before {
-            content: "";
-            position: absolute;
-            top: -20px;
-            left: 0;
-            width: 100%;
-            height: 120%;
-            background: radial-gradient(circle at top, rgba(0, 255, 255, 0.2), rgba(138, 43, 226, 0.2));
-            filter: blur(20px);
-            z-index: -1;
             }
         `}</style>
         </>

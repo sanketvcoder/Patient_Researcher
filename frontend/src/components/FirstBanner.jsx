@@ -72,7 +72,7 @@ const FirstBanner = () => {
 
             .banner {
             width: 100%;
-            min-height: 70vh;
+            height: 100vh; /* full screen height */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -101,18 +101,18 @@ const FirstBanner = () => {
             .banner-content {
             position: relative;
             z-index: 2;
-            max-width: 800px;
+            max-width: 850px;
             animation: slideUp 1.4s ease-out;
-            padding: 0 1rem;
+            padding: 0 1.2rem;
             }
 
             .banner h1 {
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-size: clamp(2rem, 5vw, 3.2rem);
             line-height: 1.3;
             font-weight: 700;
             text-shadow: 0 0 10px rgba(0,255,255,0.4);
             margin-bottom: 20px;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
             }
 
             .banner h1 span {
@@ -123,7 +123,7 @@ const FirstBanner = () => {
             }
 
             .banner p {
-            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
             color: #cfcfcf;
             max-width: 700px;
             margin: 0 auto 40px auto;
@@ -134,8 +134,8 @@ const FirstBanner = () => {
             .explore-btn {
             background: linear-gradient(90deg, #00ffff, #8a2be2);
             border: none;
-            padding: 12px 38px;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            padding: 14px 48px;
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
             color: white;
             font-weight: 600;
             border-radius: 50px;
@@ -164,7 +164,7 @@ const FirstBanner = () => {
             .wave-border svg {
             display: block;
             width: 100%;
-            height: 100px;
+            height: 120px;
             transform: rotate(180deg);
             animation: waveMove 10s linear infinite;
             }
@@ -210,8 +210,16 @@ const FirstBanner = () => {
             /* Responsive Adjustments */
             @media (max-width: 480px) {
             .banner {
-                min-height: 60vh;
+                height: 100vh;
                 padding: 30px 10px;
+            }
+
+            .banner h1 {
+                font-size: 1.8rem;
+            }
+
+            .banner p {
+                font-size: 1rem;
             }
 
             .explore-btn {
@@ -219,7 +227,7 @@ const FirstBanner = () => {
             }
 
             .wave-border svg {
-                height: 80px;
+                height: 90px;
             }
             }
         `}</style>
