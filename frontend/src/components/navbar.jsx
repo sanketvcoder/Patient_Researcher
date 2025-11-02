@@ -1,203 +1,216 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [profileCreated, setProfileCreated] = useState(false);
-    const userName = "Sanket";
+  const [isOpen, setIsOpen] = useState(false);
+  const [profileCreated, setProfileCreated] = useState(false);
+  const userName = "Sanket";
 
-    const linksBefore = ["Home", "Publications", "Read More", "Create Profile"];
-    const linksAfter = [
-        "Home",
-        "Dashboard",
-        "Find Experts",
-        "Clinical Trial",
-        "Publication Forums",
-        "Favourites",
-        "Publications",
-    ];
+  const linksBefore = [
+    { name: "Home", path: "/" },
+    { name: "Publications", path: "/publications" },
+    { name: "Read More", path: "/read-more" },
+    { name: "Create Profile", path: "/choice-section" },
+  ];
 
-    const displayedLinks = profileCreated ? linksAfter : linksBefore;
+  const linksAfter = [
+    { name: "Home", path: "/" },
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Find Experts", path: "/experts" },
+    { name: "Clinical Trials", path: "/trials" },
+    { name: "Forums", path: "/forums" },
+    { name: "Favourites", path: "/favourites" },
+    { name: "Publications", path: "/publications" },
+  ];
 
-    const handleScroll = (e, link) => {
-        e.preventDefault();
-        if (link === "Create Profile") {
-        const section = document.getElementById("cardSection");
-        if (section) {
-            section.scrollIntoView({ behavior: "smooth" });
+  const displayedLinks = profileCreated ? linksAfter : linksBefore;
 
-            // Trigger temporary glowing border animation
-            section.classList.add("section-glow");
-            setTimeout(() => section.classList.remove("section-glow"), 3000);
+  return (
+    <>
+      <nav className="navbar">
+        <div className="nav-container">
+          <div
+            className="nav-logo"
+            onClick={() => setProfileCreated(!profileCreated)}
+          >
+            Cura<span>Link</span>
+          </div>
+
+          <ul className={`nav-links ${isOpen ? "open" : ""}`}>
+            {displayedLinks.map((link) => (
+              <li key={link.name}>
+                <Link to={link.path}>{link.name}</Link>
+              </li>
+            ))}
+          </ul>
+
+          {profileCreated && (
+            <div className="profile-logo">{userName[0]}</div>
+          )}
+
+          <div
+            className={`hamburger ${isOpen ? "open" : ""}`}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </nav>
+
+      <style>{`
+        /* 🌌 Navbar Base */
+        .navbar {
+          width: 100%;
+          position: fixed;
+          top: 0;
+          left: 0;
+          background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #302b63);
+          padding: 15px 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 999;
+          border-bottom: 1px solid rgba(0, 255, 255, 0.3);
         }
+
+        .nav-container {
+          width: 100%;
+          max-width: 1200px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
-    };
 
-    return (
-        <>
-        <nav className="navbar">
-            <div className="nav-container">
-            {/* Logo */}
-            <div
-                className="nav-logo"
-                onClick={() => setProfileCreated(!profileCreated)}
-            >
-                Cura<span>Link</span>
-            </div>
+        /* ✨ Logo */
+        .nav-logo {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: #fff;
+          cursor: pointer;
+          letter-spacing: 1px;
+        }
 
-            {/* Navigation Links */}
-            <ul className={`nav-links ${isOpen ? "open" : ""}`}>
-                {displayedLinks.map((link) => (
-                <li key={link}>
-                    <a
-                    href={`#${link.toLowerCase().replace(/\s+/g, "-")}`}
-                    onClick={(e) => handleScroll(e, link)}
-                    >
-                    {link}
-                    </a>
-                </li>
-                ))}
-            </ul>
+        .nav-logo span {
+          background: linear-gradient(90deg, #00ffff, #8e2de2);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: glow 2s infinite alternate;
+        }
 
-            {/* Profile Icon */}
-            {profileCreated && (
-                <div className="profile-logo">{userName.charAt(0)}</div>
-            )}
+        @keyframes glow {
+          from { text-shadow: 0 0 10px cyan; }
+          to { text-shadow: 0 0 20px violet; }
+        }
 
-            {/* Hamburger */}
-            <div
-                className={`hamburger ${isOpen ? "open" : ""}`}
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            </div>
-        </nav>
+        /* 🔗 Nav Links */
+        .nav-links {
+          list-style: none;
+          display: flex;
+          gap: 25px;
+          transition: all 0.3s ease;
+        }
 
-        {/* ✅ Styles */}
-        <style>{`
-            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-            * { scroll-behavior: smooth; }
+        .nav-links li {
+          position: relative;
+        }
 
-            .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(90deg, #0f0c29, #302b63, #24243e);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-            z-index: 1000;
-            font-family: 'Poppins', sans-serif;
-            }
+        .nav-links li a {
+          text-decoration: none;
 
-            .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 60px;
-            }
+          color: #00ffff;
+          font-weight: 500;
+          position: relative;
+          padding-bottom: 4px;
+          transition: color 0.3s ease;
+        }
 
-            .nav-logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #00ffff;
-            text-shadow: 0 0 15px #00ffff, 0 0 25px #8a2be2;
-            cursor: pointer;
-            }
+        /* 🩵 Underline Gradient Animation */
+        .nav-links li a::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 0%;
+          height: 2px;
+          background: linear-gradient(90deg, #00ffff, #8e2de2, #00ffff);
+          transition: width 0.4s ease;
+          border-radius: 2px;
+        }
 
-            .nav-logo span {
-            color: #fff;
-            }
+        .nav-links li a:hover {
+          color: cyan;
+        }
 
-            .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 35px;
-            }
+        .nav-links li a:hover::after {
+          width: 100%;
+        }
 
-            .nav-links li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            transition: color 0.3s ease;
-            }
+        /* 👤 Profile Circle */
+        .profile-logo {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #00ffff, #8e2de2);
+          color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-weight: bold;
+          box-shadow: 0 0 10px rgba(0,255,255,0.6);
+        }
 
-            .nav-links li a::after {
-            content: "";
+        /* 🍔 Hamburger Menu */
+        .hamburger {
+          display: none;
+          flex-direction: column;
+          gap: 6px;
+          cursor: pointer;
+        }
+
+        .hamburger span {
+          width: 25px;
+          height: 3px;
+          background: #fff;
+          transition: all 0.4s ease;
+        }
+
+        .hamburger.open span:nth-child(1) {
+          transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) {
+          transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* 📱 Responsive */
+        @media (max-width: 768px) {
+          .hamburger { display: flex; }
+          .nav-links {
             position: absolute;
-            bottom: -6px;
+            top: 70px;
             left: 0;
-            width: 0%;
-            height: 2px;
-            background: linear-gradient(90deg, cyan, violet);
-            transition: width 0.4s ease;
-            }
-
-            .nav-links li a:hover {
-            color: #00ffff;
-            text-shadow: 0 0 8px #00ffff;
-            }
-
-            .nav-links li a:hover::after {
             width: 100%;
-            }
-
-            .profile-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #00ffff, #8a2be2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 0 20px rgba(0,255,255,0.6);
-            }
-
-            .hamburger {
-            display: none;
             flex-direction: column;
-            cursor: pointer;
-            width: 25px;
-            height: 20px;
-            justify-content: space-between;
-            }
-
-            .hamburger span {
-            background: white;
-            height: 3px;
-            width: 100%;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            }
-
-            @media (max-width: 900px) {
-            .nav-links {
-                position: absolute;
-                top: 70px;
-                left: 0;
-                background: rgba(15, 12, 41, 0.95);
-                width: 100%;
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-                padding: 25px 0;
-                transform: translateY(-200%);
-                transition: transform 0.4s ease;
-            }
-            .nav-links.open {
-                transform: translateY(0%);
-            }
-            .hamburger {
-                display: flex;
-            }
-            }
-        `}</style>
-        </>
-    );
+            background: rgba(10,10,30,0.95);
+            text-align: center;
+            padding: 20px 0;
+            transform: translateY(-100%);
+            opacity: 0;
+          }
+          .nav-links.open {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          .nav-links li a::after {
+            left: 50%;
+            transform: translateX(-50%);
+          }
+        }
+      `}</style>
+    </>
+  );
 };
 
 export default Navbar;

@@ -1,0 +1,22 @@
+{
+  "name": "publication",
+  "version": "1.0.0",
+  "description": "This is publication, its duty to bring the published paper to the file",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "publication": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apify-client": "^2.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "google-scholar": "^1.5.1",
+    "nodemon": "^3.1.10"
+  }
+}

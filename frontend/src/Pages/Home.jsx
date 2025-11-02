@@ -1,13 +1,11 @@
-import CardSection from "../components/CardSection"
-import FirstBanner from "../components/FirstBanner"
+import FirstBanner from "../components/FirstBanner";
 
-const Home= ()=>{
-    return(
-        <div>
-            <FirstBanner/>
-            <CardSection/>
-        </div>
-    )
-}
+const Home = () => {
+  return (
+    <div>
+      <FirstBanner />
+    </div>
+  );
+};
 
-export default Home
+export default Home;
