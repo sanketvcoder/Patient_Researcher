@@ -6,14 +6,17 @@ import patientRoutes from './routes/patientRoutes.js';
 import researcherRoutes from './routes/researcherRoutes.js';
 import { createPatientTable } from './model/PatientModel.js';
 import { createResearcherTable } from './model/ResearcherModel.js';
+import cookieParser from "cookie-parser";
 const app = express();
-
+app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
 app.get("/",(req,res)=>{
     res.send("Hello Sanket !!");
 })
-
+app.use(cors({
+  origin: "http://localhost:5173",  // your frontend
+  credentials: true,
+}));
 createPatientTable();
 createResearcherTable();
 app.use("/api/patients", patientRoutes);

@@ -4,6 +4,13 @@ import { addResearcher } from "../model/ResearcherModel.js";
 export const createResearcher = async (req, res) => {
     try {
         const newResearcher = await addResearcher(req.body);
+        res.cookie("userEmail", req.body.email, {
+            httpOnly: false,
+            secure: false,
+            sameSite: "lax",
+            path: "/",
+            maxAge: 24 * 60 * 60 * 1000, // 1 day
+        });
         res.status(201).json({
         message: "Researcher created successfully",
         data: newResearcher,
@@ -15,6 +22,22 @@ export const createResearcher = async (req, res) => {
         });
     }
 };
+
+export const fetchResearcherByEmail = async (req, res) => {
+    try {
+        const email = req.cookies.userEmail || req.body.email;
+        const result = await pool.query("SELECT * FROM researcher WHERE email = $1", [
+        email,
+        ]);
+        if (result.rows.length === 0)
+        return res.status(404).json({ message: "Researcher not found" });
+
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.error("Error fetching researcher by email:", error);
+        res.status(500).json({ message: "Failed to fetch researcher" });
+    }
+}
 
 export const fetchResearcherById = async (req, res) => {
     try {

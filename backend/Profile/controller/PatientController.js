@@ -1,19 +1,29 @@
 import { addPatient } from "../model/PatientModel.js"
 import pool from '../db/db.js';
-export const createPatient = async(req,res)=>{
-    try {
-        const newPatient = await addPatient(req.body)
-        res.status(201).json({
-            message:"Patient created successfully",
-            data: newPatient,
-        })
-    } catch (error) {
-        console.error("Error creating patient: ",error)
-        res.status(500).json({
-            message: "Failed to create patient"
-        })
-    }
-}
+export const createPatient = async (req, res) => {
+  try {
+    const newPatient = await addPatient(req.body);
+
+    res.cookie("patientEmail", req.body.email, {
+  httpOnly: false,
+  secure: false,
+  sameSite: "lax",    // ✅ works on localhost
+  path: "/",
+  maxAge: 24 * 60 * 60 * 1000,
+});
+
+
+    res.status(201).json({
+      message: "Patient created successfully",
+      data: newPatient,
+    });
+  } catch (error) {
+    console.error("Error creating patient: ", error);
+    res.status(500).json({
+      message: "Failed to create patient",
+    });
+  }
+};
 
 
 export const fetchPatientId = async(req,res)=>{
@@ -25,6 +35,20 @@ export const fetchPatientId = async(req,res)=>{
         res.status(200).json(result.rows[0]);
     } catch (error) {
         console.error("Error fetching patient:", error);
+        res.status(500).json({ message: "Failed to fetch patient" });
+    }
+}
+
+
+export const fetchPatientByPatient = async(req, res) =>{
+    try{
+        const email = req.cookies.userEmail || req.body.email;
+        const result = await pool.query("SELECT * FROM patient WHERE email = $1", [email]);
+        if (result.rows.length === 0)
+            return res.status(404).json({ message: "Patient not found" });
+        res.status(200).json(result.rows[0]);
+    }catch(error){
+        console.error("Error fetching patient by email:", error);
         res.status(500).json({ message: "Failed to fetch patient" });
     }
 }
