@@ -12,9 +12,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
     "apify": "^3.5.1",
     "apify-client": "^2.19.0",
     "axios": "^1.13.1",
+=======
+    "apify-client": "^2.19.0",
+>>>>>>> cb3c5f48a898813ec2351246e1594bc74b018214
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",

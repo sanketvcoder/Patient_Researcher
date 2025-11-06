@@ -1,6 +1,5 @@
 import React from "react";
 
-
 const Card = ({ icon, title, description, selected, onClick }) => {
     return (
         <div
