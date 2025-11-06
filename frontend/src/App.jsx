@@ -36,15 +36,7 @@ function AppContent() {
 function App() {
   return (
     <Router>
-<<<<<<< HEAD
       <AppContent />
-=======
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/choice-section" element={<ChoiceSection />} />
-      </Routes>
->>>>>>> cb3c5f48a898813ec2351246e1594bc74b018214
     </Router>
   );
 }
